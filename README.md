@@ -123,12 +123,18 @@ Runtime Complexity
 
 For each of n items scanned:
   Unit Price hash lookup: O(1)
+
   Increment Shopping Cart quantity: O(1)
+
   Volume Price hash lookup: O(1)
+
   Shopping cart quantity hash lookup: O(1)
+
   Math to compute discounts and total price: O(1)
-=
-O(n) runtime complexity
+
+Total:
+
+  O(n) runtime complexity
 
 
 Extra:  Idea for scaling this project to larger data sets
