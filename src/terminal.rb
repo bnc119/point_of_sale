@@ -73,7 +73,8 @@ class Terminal
         @total -= (my_quantity-1) * unit_price
         @total += vol_price
         
-        # the shopper needs to start accumulating for next volume discount
+        # the shopper needs to start accumulating this item 
+        # for next volume discount
         @shopping_cart[item] = 0
       else
         @total +=unit_price

@@ -147,7 +147,7 @@ describe Terminal do
        @terminal.scan "A"; @terminal.scan "B"; @terminal.scan "C"
        @terminal.scan "D"
         
-        @terminal.total.should == 15.40
+       @terminal.total.should == 15.40
        
       end
             
