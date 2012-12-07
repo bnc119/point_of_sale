@@ -3,7 +3,7 @@ module PointofSale
  
     # require is used to load another file.  The code inside the file is executed in place
     # ruby will ensure that you dont require the same files twice.
-    require './parser'
+    require_relative 'parser'
     
     # include is used to take all the methods from another module and include them into
     # the current module.  
@@ -16,7 +16,6 @@ module PointofSale
 		  @base_prices   = Hash.new
 		  @volume_prices = Hash.new
 		  @total = 0.00
-		  
 		end
      
 		# set_prices either takes hashes in the following format:

@@ -1,4 +1,4 @@
-require_relative '../terminal'
+require_relative'../terminal'
 
 describe PointofSale::Terminal do
 
