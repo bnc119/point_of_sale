@@ -1,19 +1,27 @@
-require 'spec_helper'
+require_relative '../terminal'
 
-describe Terminal do
+describe PointofSale::Terminal do
 
   describe "class" do
       
     before (:each) do 
-      @terminal = Terminal.new
+      @terminal = PointofSale::Terminal.new
     end
      
     it "should be an instance of 'Terminal'" do
-      @terminal.should be_an_instance_of Terminal
+      @terminal.should be_an_instance_of PointofSale::Terminal
     end
     
     it "should respond to 'scan'" do
       @terminal.should respond_to(:scan)
+    end
+    
+    it "should respond to 'add'" do
+      @terminal.should respond_to(:add)
+    end
+    
+    it "should respond to '+'" do
+      @terminal.should respond_to(:+)
     end
     
     it "should respond to 'base_prices'" do
@@ -62,7 +70,7 @@ describe Terminal do
       
       it "should return the correct total from data set 2" do
         for i in 0..6
-          @terminal.scan "C"  
+          @terminal.add "C"  
         end
         
         @terminal.total.should == 7.25
@@ -70,8 +78,8 @@ describe Terminal do
       end
       
       it "should return the correct total from data set 3" do
-        @terminal.scan "A"; @terminal.scan "B"; @terminal.scan "C"
-        @terminal.scan "D"
+        @terminal.+ "A"; @terminal.+ "B"; @terminal.+ "C"
+        @terminal.+ "D"
         
         @terminal.total.should == 15.40
        
