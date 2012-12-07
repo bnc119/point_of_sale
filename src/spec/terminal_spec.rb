@@ -78,8 +78,8 @@ describe PointofSale::Terminal do
       end
       
       it "should return the correct total from data set 3" do
-        @terminal.+ "A"; @terminal.+ "B"; @terminal.+ "C"
-        @terminal.+ "D"
+        @terminal + "A"; @terminal + "B"; @terminal + "C"
+        @terminal + "D"
         
         @terminal.total.should == 15.40
        

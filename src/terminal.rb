@@ -29,12 +29,16 @@ module PointofSale
 		    @base_prices=base_prices
 		  elsif base_prices.instance_of? String
 		    parse_input_file base_prices,"base"
+		  else
+		  	puts "base_prices must be either hash or string to input file"
 		  end
 		  
 		  if volume_prices.instance_of? Hash
 		    @volume_prices=volume_prices
 		  elsif volume_prices.instance_of? String
 		    parse_input_file volume_prices,"volume"
+		  else
+		  	puts "volume prices must be either hash or string to input file"
 		  end
 		  
 		end
@@ -61,7 +65,7 @@ module PointofSale
    
   	private
 
-		def add_to_shopping_cart code
+		def add_to_shopping_cart(code)
 		  if @shopping_cart.include? code
 		    @shopping_cart.merge!( code => @shopping_cart[code] +=1 )
 		  else
@@ -69,7 +73,7 @@ module PointofSale
 		  end
 		end
       
-		def apply_discounts item,unit_price
+		def apply_discounts(item,unit_price)
 		  
 		  # just added new item to shopping cart, let's check to see
 		  # if this qualifies for any volume discounts
