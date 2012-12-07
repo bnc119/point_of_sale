@@ -17,6 +17,12 @@ module PointofSale
 		  @volume_prices = Hash.new
 		  @total = 0.00
 		end
+		
+		# print a nice summary for the customer
+		def to_s
+		  puts "Your total = #{total}"
+		  puts "Thank you, come again!"
+		end
      
 		# set_prices either takes hashes in the following format:
 		# base_prices = { "A" => 0.75, "M" => 1.00 }

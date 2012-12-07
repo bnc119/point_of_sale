@@ -111,6 +111,9 @@ describe PointofSale::Terminal do
         for i in 0..999999
           @terminal.scan "A"  
         end
+        
+        # number of volume bundles at the volume price + 
+        # number of units left over at the unit price
         @terminal.total.should == ((1000000 / @terminal.volume_prices["A"][:quantity] ) * 
                                   @terminal.volume_prices["A"][:price] ) +  
                                   ( 1000000 % @terminal.volume_prices["A"][:quantity] * 
