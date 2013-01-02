@@ -7,16 +7,18 @@ class Terminal
     @shopping_cart = Hash.new
     @base_prices   = Hash.new
     @volume_prices = Hash.new
+    @threshold_prices = Hash.new
     @total = 0.00
   end
      
   # set_prices either takes hashes in the following format:
   # base_prices = { "A" => 0.75, "M" => 1.00 }
   # volume_prices = { "A" => {:quantity => 4, :price => 1 } } 
+  # threshold_prices = { "A" => {:quantity => 10, :price => 1 } }
   # Alternatively, a path to an input file can also be used.
   # See "parse_input_file" function for parsing assumptions
   
-  def set_prices(base_prices, volume_prices)
+  def set_prices(base_prices, volume_prices, threshold_prices=nil)
     if base_prices.instance_of? Hash
       @base_prices=base_prices
     elsif base_prices.instance_of? String
@@ -27,6 +29,13 @@ class Terminal
       @volume_prices=volume_prices
     elsif volume_prices.instance_of? String
       parse_input_file volume_prices,"volume"
+    end
+    
+    if threshold_prices.instance_of? Hash
+      @threshold_prices=threshold_prices
+    # TODO
+    #elsif volume_prices.instance_of? String
+    #  parse_input_file volume_prices,"volume"
     end
     
   end
@@ -58,10 +67,26 @@ class Terminal
       
   def apply_discounts item,unit_price
     
-    # just added new item to shopping cart, let's check to see
-    # if this qualifies for any volume discounts
     
-    if (@volume_prices.include? item)
+    if (@threshold_prices.include? item)
+	    
+	    my_quantity = @shopping_cart[item] 
+      thresh_quantity = @threshold_prices[item][:quantity]
+      thresh_price = @threshold_prices[item][:price]
+    
+      if (my_quantity >= thresh_quantity)
+       @total -= (my_quantity-1) * unit_price
+       @total += thresh_price
+        
+       # the shopper needs to start accumulating this item 
+       # for next thresh_price discount
+       @shopping_cart[item] = 0
+      else
+        @total +=unit_price
+      end
+      
+    elsif (@volume_prices.include? item)
+      
       
       my_quantity = @shopping_cart[item] 
       vol_quantity = @volume_prices[item][:quantity]
@@ -81,9 +106,10 @@ class Terminal
       end
       
     else
-      # no volume discounts defined for this item      
+      # no volume OR threshold discounts available  for this item      
       @total +=unit_price
     end
+    
    
   end
   

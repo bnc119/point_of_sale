@@ -35,16 +35,19 @@ describe Terminal do
     describe "input from hash" do
       before (:each) do
         
-        base_prices = { "A" => 2.00, "B" => 12.00, "C" => 1.25,"D" => 0.15}
+        base_prices = { "A" => 2.00, "B" => 12.00, "C" => 1.25,"D" => 0.15, "M" => 1.00}
         volume_prices = { "A" => {:quantity => 4, :price => 7.00},
                           "C" => {:quantity => 6, :price => 6.00} }                         
+                          
+        threshold_prices = { "M" => {:quantity => 10, :price => 5.00} }                         
+        
                                  
-        @terminal.set_prices(base_prices, volume_prices)
+        @terminal.set_prices(base_prices, volume_prices, threshold_prices)
             
       end
       
       it "should return correct # base_price items" do
-        @terminal.base_prices.size.should == 4
+        @terminal.base_prices.size.should == 5
       end
       
       it "should return correct # volume_price items" do
@@ -58,6 +61,29 @@ describe Terminal do
         
         @terminal.total.should == 32.40
        
+      end
+      
+      it "should return the correct value 1 item of item A" do
+
+        @terminal.scan "A"
+        @terminal.total.should == 2.00
+        
+      end
+      
+      it "should return the correct value 1 item of item M" do
+        
+        @terminal.scan "M"
+        @terminal.total.should == 1.00
+        
+      end
+      
+      
+      it "should return the correct value for threshold price" do
+        for i in 0..9
+          @terminal.scan "M"
+        end
+        @terminal.total.should == 5.00
+        
       end
       
       it "should return the correct total from data set 2" do
