@@ -12,9 +12,7 @@ module PointofSale
 		attr_reader :base_prices, :volume_prices, :total
     
 		def initialize
-		  @shopping_cart = Hash.new
-		  @base_prices   = Hash.new
-		  @volume_prices = Hash.new
+		  @shopping_cart, @base_prices, @volume_prices = Hash.new
 		  @total = 0.00
 		end
 		

@@ -69,9 +69,9 @@ describe PointofSale::Terminal do
       end
       
       it "should return the correct total from data set 2" do
-        for i in 0..6
+        0.upto(6) { 
           @terminal.add "C"  
-        end
+        }
         
         @terminal.total.should == 7.25
        
