@@ -1,19 +1,27 @@
-require 'spec_helper'
+require_relative'../terminal'
 
-describe Terminal do
+describe PointofSale::Terminal do
 
   describe "class" do
       
     before (:each) do 
-      @terminal = Terminal.new
+      @terminal = PointofSale::Terminal.new
     end
      
     it "should be an instance of 'Terminal'" do
-      @terminal.should be_an_instance_of Terminal
+      @terminal.should be_an_instance_of PointofSale::Terminal
     end
     
     it "should respond to 'scan'" do
       @terminal.should respond_to(:scan)
+    end
+    
+    it "should respond to 'add'" do
+      @terminal.should respond_to(:add)
+    end
+    
+    it "should respond to '+'" do
+      @terminal.should respond_to(:+)
     end
     
     it "should respond to 'base_prices'" do
@@ -38,11 +46,8 @@ describe Terminal do
         base_prices = { "A" => 2.00, "B" => 12.00, "C" => 1.25,"D" => 0.15, "M" => 1.00}
         volume_prices = { "A" => {:quantity => 4, :price => 7.00},
                           "C" => {:quantity => 6, :price => 6.00} }                         
-                          
-        threshold_prices = { "M" => {:quantity => 10, :price => 5.00} }                         
-        
                                  
-        @terminal.set_prices(base_prices, volume_prices, threshold_prices)
+        @terminal.set_prices(base_prices, volume_prices)
             
       end
       
@@ -76,28 +81,20 @@ describe Terminal do
         @terminal.total.should == 1.00
         
       end
-      
-      
-      it "should return the correct value for threshold price" do
-        for i in 0..9
-          @terminal.scan "M"
-        end
-        @terminal.total.should == 5.00
-        
-      end
+     
       
       it "should return the correct total from data set 2" do
-        for i in 0..6
-          @terminal.scan "C"  
-        end
+        0.upto(6) { 
+          @terminal.add "C"  
+        }
         
         @terminal.total.should == 7.25
        
       end
       
       it "should return the correct total from data set 3" do
-        @terminal.scan "A"; @terminal.scan "B"; @terminal.scan "C"
-        @terminal.scan "D"
+        @terminal + "A"; @terminal + "B"; @terminal + "C"
+        @terminal + "D"
         
         @terminal.total.should == 15.40
        
@@ -129,6 +126,9 @@ describe Terminal do
         for i in 0..999999
           @terminal.scan "A"  
         end
+        
+        # number of volume bundles at the volume price + 
+        # number of units left over at the unit price
         @terminal.total.should == ((1000000 / @terminal.volume_prices["A"][:quantity] ) * 
                                   @terminal.volume_prices["A"][:price] ) +  
                                   ( 1000000 % @terminal.volume_prices["A"][:quantity] * 
